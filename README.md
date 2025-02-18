@@ -1,5 +1,5 @@
 
-# ClassMate AI harsh
+# ClassMate AI harshkumar
 
 ClassMate AI is an AI-powered application designed to simplify and enhance the learning experience for students and faculty. The app includes features like attendance tracking, notes summarization, quiz generation, and assignment reminders. It is built using React for the front-end and Python for the back-end.
 
