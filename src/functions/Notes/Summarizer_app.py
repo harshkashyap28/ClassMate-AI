@@ -1,10 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
 import os
 import fitz
 import google.generativeai as genai
 import re
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +18,7 @@ if not os.path.exists(TEMP_DIR):
     os.makedirs(TEMP_DIR)
 
 # Adding Gemini API
-GOOGLE_API_KEY = "AIzaSyDhWB4h-bpT1TtNupJqk00d9knRGm3G1-c"
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
 def extract_text_from_pdf(pdf_path):
@@ -36,7 +40,7 @@ def clean_summary(text):
     return cleaned_text.strip()
 
 def generate_summary(text_chunks):
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("models/gemini-1.5-flash-002")
 
     summaries = []
     for chunk in text_chunks:

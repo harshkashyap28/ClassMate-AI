@@ -1,210 +1,152 @@
-/* Quiz Section Styling */
+/* General Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8f9fa, #dfe6e9);
+  color: #333;
+  overflow: hidden;
+  min-height: 100vh;
+  padding-top: 80px; /* Added padding to ensure no content is hidden behind the fixed header */
+}
+
+/* Quiz Container */
 .quiz-container {
   max-width: 900px;
-  margin: 120px auto;
+  margin: 40px auto;
   padding: 20px;
-  background: rgb(251, 247, 247);
-  border-radius: 50px;
-  box-shadow: 0 40px 20px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 120px; /* Added top margin to ensure content is not overlapped by the header */
 }
 
-/* Quiz Title */
-.quiz-container .title {
+/* Title */
+.title {
   font-size: 2.5rem;
   color: #2c3e50;
-  font-weight: bold;
-  margin-bottom: 30px;
   text-align: center;
-}
-
-/* Upload Form */
-.quiz-container .upload-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.quiz-container .file-label {
-  font-size: 1rem;
-  color: #34495e;
   font-weight: bold;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.quiz-container .file-label i {
-  margin-right: 10px;
-}
-
-.quiz-container .file-input {
-  border: 3px solid #2c3e50;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 8px;
-  transition: 0.3s;
-  background: #fff;
-  width: 100%;
   margin-bottom: 20px;
 }
 
-.quiz-container .file-input:focus {
+/* Results Card */
+.results-card {
+  padding: 20px;
+  max-height: 500px; /* Limit the height of the results card */
+  overflow-y: auto; /* Allow scrolling when content exceeds max-height */
+  margin-bottom: 20px;
+}
+
+/* Upload Form */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* File Upload */
+.file-label {
+  font-size: 1.2rem;
+  color: #34495e;
+  font-weight: bold;
+}
+
+.file-input {
+  border: 2px solid #2c3e50;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  width: 80%;
+  background: #fff;
+}
+
+.file-input:focus {
   border-color: #1c2833;
   box-shadow: 0 0 5px rgba(44, 62, 80, 0.5);
 }
 
-/* Upload Button */
-.quiz-container .upload-btn {
-  background: #2c3e50;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
+/* Form Layout - Side by Side */
+.quiz-settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin-top: 20px;
 }
 
-.quiz-container .upload-btn:hover {
-  background: #1c2833;
-}
-
-/* Start Quiz Button */
-.quiz-container .start-btn {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.quiz-container .start-btn:hover {
-  background: #218838;
-}
-
-/* Quiz Card */
-.quiz-container .quiz-card {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.quiz-container .quiz-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
-
-/* Results Card */
-.quiz-container .results-card {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-/* Navigation Buttons */
-.quiz-container .btn-secondary {
-  background: #2b92e0;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 8px;
-}
-
-.quiz-container .btn-secondary:hover {
-  background: #5a6268;
-}
-
-/* Submit Button */
-.quiz-container .btn-success {
-  background: #28a745;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 8px;
-}
-
-.quiz-container .btn-success:hover {
-  background: #218838;
-}
-
-/* Upload Area */
-.quiz-container .upload-area {
-  border: 2px dashed #bdc3c7;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: border-color 0.3s;
+.setting-group {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 45%;
 }
 
-.quiz-container .upload-area:hover {
-  border-color: #2c3e50;
+.setting-group label {
+  font-size: 1rem;
+  color: #34495e;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-/* Hide actual file input */
-.quiz-container .file-input {
-  display: none;
+.setting-input,
+.setting-select {
+  border: 2px solid #2c3e50;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  width: 100%;
 }
 
-/* Spinner */
-.quiz-container .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #3498db;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Form Check Label */
-.quiz-container .form-check-label {
+/* Button Styles */
+.upload-btn {
+  background: #2c3e50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: color 0.3s;
+  margin-top: 20px;
 }
 
-.quiz-container .form-check-label:hover {
-  color: #3498db;
+.upload-btn:hover {
+  background: #1c2833;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .quiz-container {
-    padding: 15px;
-    margin: 80px auto;
-  }
+/* Option Style */
+.quiz-options {
+  margin-top: 20px;
+}
 
-  .quiz-container .title {
-    font-size: 2rem;
-  }
+.quiz-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
 
-  .quiz-container .quiz-card {
-    padding: 20px;
-  }
+.quiz-option input {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
 
-  .quiz-container .upload-btn,
-  .quiz-container .start-btn {
-    width: 100%;
-  }
+.option-text {
+  font-size: 1.1rem;
+  color: #34495e;
+}
+
+/* Navigation Buttons */
+.quiz-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.quiz-navigation button {
+  width: 45%;
+}
+
+.quiz-navigation button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

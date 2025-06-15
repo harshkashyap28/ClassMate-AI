@@ -1,23 +1,79 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# ----------------------------------------
+# 📦 DEPENDENCIES
+# ----------------------------------------
 /node_modules
 /.pnp
 .pnp.js
 
-# testing
+# ----------------------------------------
+# 🧪 TESTING
+# ----------------------------------------
 /coverage
 
-# production
+# ----------------------------------------
+# 🚀 PRODUCTION BUILD
+# ----------------------------------------
 /build
 
-# misc
-.DS_Store
+# ----------------------------------------
+# 🔐 ENVIRONMENT FILES & SYSTEM FILES
+# ----------------------------------------
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
+.DS_Store
 
+# ----------------------------------------
+# 📓 LOG FILES
+# ----------------------------------------
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# ----------------------------------------
+# 🔥 FIREBASE & BACKEND CONFIG (Sensitive)
+# ----------------------------------------
+.firebase/
+.firebaserc
+firebase.json
+firestore.rules
+firestore.indexes.json
+storage.rules
+
+# Firebase admin SDK keys (NEVER push)
+extra/classmate-ai-63d5b-firebase-adminsdk-dizo8-ee94ad30f2.json
+extra/classmate-ai-*.json
+
+# Firebase backend functions
+functions/
+functions-v2/
+
+# ----------------------------------------
+# 🧪 EXPERIMENTAL / TEMP FILES
+# ----------------------------------------
+extra/API_remidner.ipynb
+extra/delete.ipynb
+extra/new.py
+extra/new.txt
+extra/instance/
+
+
+# ----------------------------------------
+# 🧠 Face recognition helper (optional to ignore if experimental)
+src/utils/faceComparison.js
+# ----------------------------------------
+
+
+
+# ----------------------------------------
+# 🧠 MODEL FILES (LARGE & NON-ESSENTIAL)
+# ----------------------------------------
+extra/shape_predictor_68_face_landmarks.dat
+
+# ----------------------------------------
+# ⚙️ OTHER TEST CONFIGS
+# ----------------------------------------
+cors.json

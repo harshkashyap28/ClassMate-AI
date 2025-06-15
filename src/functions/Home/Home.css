@@ -1,20 +1,37 @@
 /* General Styles */
-body {
+html, body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  color: #333;
-  overflow-x: hidden;
-  background: #1f1f1f; /* Dark background for contrast */
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  font-family: 'Montserrat', sans-serif; /* Modern and clean font */
+  color: #e0e0e0; /* Light, readable text on dark background */
+  background: #121212; /* Dark, sophisticated background */
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(63, 81, 181, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%); /* Subtle radial gradient */
+  z-index: -2;
 }
 
 .home-page {
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
-  position: relative;
-  padding: 0;
 }
 
-/* Animated Background */
+/* Animated Background with Subtle Patterns */
 .home-page::before {
   content: "";
   position: absolute;
@@ -22,25 +39,20 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #1f1c2c, #928dab, #1f1c2c);
+  background: linear-gradient(45deg, #1e3654, #3a2e52, #1e3654); /* Deeper, more modern gradient */
   background-size: 400% 400%;
-  animation: gradientRotate 15s ease infinite;
+  animation: gradientShift 10s ease infinite; /* Faster, smoother animation */
   z-index: -1;
+  opacity: 0.8; /* Slightly reduce opacity for better layering */
 }
 
-@keyframes gradientRotate {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Particle Animation for Background */
+/* Subtle Particle Animation */
 .particles {
   position: absolute;
   top: 0;
@@ -48,143 +60,83 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
+  pointer-events: none; /* Prevent interaction with particles */
 }
 
 .particle {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.5);
+  width: 3px; /* Slightly larger particles */
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3); /* Softer white */
   border-radius: 50%;
-  animation: float 5s infinite ease-in-out;
+  animation: subtleFloat 7s infinite ease-in-out; /* Slower, more subtle float */
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(-20px) translateX(20px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0) translateX(0);
-    opacity: 0.5;
-  }
+@keyframes subtleFloat {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-10px) translateX(15px) scale(1.2); opacity: 0.7; }
+  100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
 }
 
-/* Header Styles */
-.home-header {
-  background: white; /* Set background to white */
-  backdrop-filter: blur(15px);
-  box-shadow: 0 50px 15px rgba(0, 0, 0, 0.15);
-  padding: 10px 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  transition: background 0.3s ease;
-  opacity: 0;
-  transform: translateY(-50px); /* Start from above */
-  animation: slideDown 1s forwards 0.3s; /* Apply the animation */
-}
-
-@keyframes slideDown {
-  to {
-    opacity: 1;
-    transform: translateY(0); /* Slide down to normal position */
-  }
-}
-
-.home-header .home-title {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-  color: #333; /* Dark color for better contrast */
-  text-shadow: none; /* Remove text shadow for clearer text */
-}
-
-.home-header .home-nav {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-.home-header .home-nav a {
-  color: #333; /* Set link color to dark */
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: 600;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.home-header .home-nav a:hover {
-  color: #007bff;
-  transform: translateY(-2px);
-}
-
-.home-header .home-nav .logout-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 30px;
-  font-size: 17px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-.home-header .home-nav .logout-btn:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2);
-}
-
-/* Main Content Styles */
+/* Main Content - Centered and Engaging */
 .home-content {
-  padding: 60px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: calc(100vh - 100px); /* Adjust height for header */
+  padding: 0 30px; /* Remove top padding, adjust bottom */
   position: relative;
   z-index: 2;
-  text-align: center;
+  margin-top: 100px; /* Ensure there's space for the header */
 }
 
+/* Adjusted Welcome Message */
 .welcome-message {
-  font-size: 3.5rem;
-  color: white;
-  margin-bottom: 20px;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+  font-size: 4rem; /* Larger and more impactful */
+  color: #fff;
+  margin-bottom: 25px;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+  letter-spacing: 2px;
+  font-weight: 700;
 }
 
 .welcome-subtext {
-  font-size: 1.4rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 50px;
+  font-size: 1.5rem; /* Slightly larger subtext */
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 60px;
+  line-height: 1.8;
+  max-width: 800px; /* Limit width for better readability */
 }
 
+/* Features Grid - Modern and Interactive */
 /* Features Grid */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 20px;
+  max-height: 100%;
 }
 
 .feature-card {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
-  border-radius: 25px;
+  border-radius: 50px;
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  min-height: 200px;
+  height: 290px; /* Fixed height for rectangular shape */
 }
 
 .feature-card::before {
@@ -193,63 +145,140 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  z-index: -1;
+  height: 5px; /* Highlight bar */
+  background: linear-gradient(to right, #00bfff, #007bff); /* Gradient highlight */
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transform: translateY(-5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .feature-card:hover::before {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .feature-card:hover {
-  transform: translateY(-15px);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.25);
+  transform: translateY(-10px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
 }
 
 .feature-card h3 {
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .feature-card p {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
-  margin-bottom: 15px;
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.7;
 }
 
 .feature-card button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
+  background-color: transparent;
+  color: #00bfff;
+  border: 2px solid #00bfff;
+  padding: 12px 28px;
   border-radius: 30px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  align-self: center; /* Center the button */
+  margin-top: -20px; /* Shift the button 10px above */
+  box-shadow: 0 2px 5px rgba(0, 191, 255, 0.2);
 }
+
 
 .feature-card button:hover {
-  background-color: #0056b3;
+  background-color: #00bfff;
+  color: #fff;
   transform: translateY(-2px);
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 191, 255, 0.3);
 }
 
-/* Responsive Design */
+/* Responsive Design - Improved Breakpoints */
+@media (max-width: 1400px) {
+  .features-grid {
+    max-width: 1200px;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  }
+  
+  .feature-card {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .welcome-message {
+    font-size: 3.5rem;
+  }
+
+  .welcome-subtext {
+    font-size: 1.3rem;
+  }
+}
+
 @media (max-width: 992px) {
   .features-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    grid-template-columns: repeat(2, 1fr); /* Keep 2 columns */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .feature-card {
+    min-height: 300px;
+    padding: 25px;
   }
 }
 
 @media (max-width: 768px) {
+  .welcome-message {
+    font-size: 2.8rem;
+  }
+
+  .welcome-subtext {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+  }
+
   .features-grid {
-    grid-template-columns: 1fr; /* 1 column on small screens */
+    grid-template-columns: 1fr; /* Single column for small screens */
+    max-width: 600px;
+  }
+
+  .feature-card {
+    min-height: 280px;
+    aspect-ratio: auto; /* Allow natural height on mobile */
+  }
+}
+
+@media (max-width: 576px) {
+  .welcome-message {
+    font-size: 2.2rem;
+  }
+
+  .welcome-subtext {
+    font-size: 1rem;
+  }
+  
+  .feature-card {
+    min-height: 250px;
+    padding: 20px;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.5rem;
+  }
+  
+  .feature-card p {
+    font-size: 1rem;
+  }
+  
+  .feature-card button {
+    padding: 10px 20px;
+    font-size: 1rem;
   }
 }

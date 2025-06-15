@@ -1,6 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./Home.css";
+import { useNavigate, Link } from "react-router-dom";
+import "./homeheader.css";
 
 const HomeHeader = () => {
   const navigate = useNavigate();
@@ -14,10 +14,10 @@ const HomeHeader = () => {
     <header className="home-header">
       <h1 className="home-title">ClassMate AI</h1>
       <nav className="home-nav">
-        <a href="/home">Home</a>
-        <a href="/profile">Profile</a>
-        <a href="/assignments">Assignments</a>
-        <a href="/notes">Notes</a>
+        <Link to="/home">Home</Link>
+        <Link to="/profile">Profile</Link> {/* Correct Client-Side Navigation */}
+        <Link to="/assignments">Assignments</Link>
+        <Link to="/summarizer">Notes</Link>
         <button onClick={handleLogout} className="logout-btn">
           Logout
         </button>

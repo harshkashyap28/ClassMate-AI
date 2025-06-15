@@ -10,11 +10,12 @@ const Quiz = () => {
   const [difficulty, setDifficulty] = useState("Easy");
   const [quiz, setQuiz] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(10);
   const [quizGenerated, setQuizGenerated] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [userAnswers, setUserAnswers] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [showResults, setShowResults] = useState(false); 
+  const [showResults, setShowResults] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -28,11 +29,12 @@ const Quiz = () => {
   const formatQuizData = (quizString) => {
     return quizString.split("\n").reduce((acc, line) => {
       if (line.startsWith("Q:")) {
-        acc.push({ question: line, options: [], answer: "" });
+        acc.push({ question: line.replace("Q:", "").trim(), options: [], answer: "" });
       } else if (line.match(/^[A-D]\)/)) {
-        acc[acc.length - 1].options.push(line);
+        acc[acc.length - 1].options.push(line.substring(3).trim());
       } else if (line.startsWith("Answer:")) {
-        acc[acc.length - 1].answer = line.split(": ")[1];
+        const correctOptionIndex = ["A", "B", "C", "D"].indexOf(line.split(": ")[1].trim());
+        acc[acc.length - 1].answer = acc[acc.length - 1].options[correctOptionIndex];
       }
       return acc;
     }, []);
@@ -45,14 +47,24 @@ const Quiz = () => {
     }
 
     setLoading(true);
+    setTimer(10);
 
     const formData = new FormData();
     formData.append("pdf", pdfFile);
     formData.append("numQuestions", numQuestions);
     formData.append("difficulty", difficulty);
 
+    const timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerInterval);
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     try {
-      const response = await axios.post("http://127.0.0.1:5000/generate-quiz/pdf", formData, {
+      const response = await axios.post("http://127.0.0.1:5002/generate-quiz/pdf", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -86,7 +98,7 @@ const Quiz = () => {
   };
 
   const handleSubmitQuiz = () => {
-    setShowResults(true); // Show results page
+    setShowResults(true);
   };
 
   const handleRetryQuiz = () => {
@@ -105,19 +117,14 @@ const Quiz = () => {
         <div className="container quiz-container">
           <h2 className="title text-center mb-4">📝 Quiz Results</h2>
           <div className="results-card p-4">
-            <div className="results-content">
-              {quiz.map((question, index) => (
-                <div key={index} className="mb-4">
-                  <h5>{question.question}</h5>
-                  <p><strong>Your Answer:</strong> {userAnswers[index] || "Not answered"}</p>
-                  <p><strong>Correct Answer:</strong> {question.answer}</p>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={handleRetryQuiz}
-              className="btn btn-primary w-100 mt-4"
-            >
+            {quiz.map((question, index) => (
+              <div key={index} className="mb-4">
+                <h5>{question.question}</h5>
+                <p><strong>Your Answer:</strong> {userAnswers[index] || "Not answered"}</p>
+                <p><strong>Correct Answer:</strong> {question.answer}</p>
+              </div>
+            ))}
+            <button onClick={handleRetryQuiz} className="btn btn-primary w-100 mt-4">
               Retry Quiz
             </button>
           </div>
@@ -134,104 +141,83 @@ const Quiz = () => {
 
         {!quizGenerated ? (
           <form onSubmit={(e) => e.preventDefault()} className="upload-form">
-            <div className="upload-area"> {/* New upload area */}
-              <label htmlFor="fileInput" className="file-label">
-                <i className="fas fa-upload"></i> {/* Upload icon */}
-                <span>Upload PDF</span> {/* Upload text */}
-              </label>
-              <input
-                type="file"
-                id="fileInput"
-                accept="application/pdf"
-                onChange={handleFileChange}
-                className="file-input"
-              />
+            <label className="file-label">Upload PDF</label>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={handleFileChange}
+              className="file-input"
+            />
+
+            <div className="quiz-settings-row">
+              <div className="setting-group">
+                <label>Number of Questions:</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="50"
+                  value={numQuestions}
+                  onChange={(e) => setNumQuestions(e.target.value)}
+                  className="setting-input"
+                />
+              </div>
+
+              <div className="setting-group">
+                <label>Difficulty Level:</label>
+                <select
+                  value={difficulty}
+                  onChange={(e) => setDifficulty(e.target.value)}
+                  className="setting-select"
+                >
+                  <option value="Easy">Easy</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Hard">Hard</option>
+                </select>
+              </div>
             </div>
 
-            <div className="input-group">
-              <label>Number of Questions:</label>
-              <input
-                type="number"
-                value={numQuestions}
-                onChange={(e) => setNumQuestions(e.target.value)}
-                min="1"
-                className="quiz-input"
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Difficulty Level:</label>
-              <select
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                className="quiz-select"
-              >
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </select>
-            </div>
-
-            <button
-              onClick={handleGenerateQuiz}
-              disabled={loading}
-              className="btn upload-btn"
-            >
-              {loading ? <div className="spinner"></div> : "Generate Quiz"} {/* Spinner */}
+            <button onClick={handleGenerateQuiz} disabled={loading} className="upload-btn">
+              {loading ? <div className="spinner">⏳ {timer}s</div> : "Generate Quiz"}
             </button>
           </form>
-        ) : !quizStarted ? (
-          <button
-            onClick={() => setQuizStarted(true)}
-            className="btn start-btn w-100"
-          >
-            Start Quiz
-          </button>
-        ) : (
+        ) : quizStarted ? (
           <div className="quiz-content">
-            <div className="quiz-card p-4">
-              <h3 className="mb-4">{quiz[currentQuestionIndex].question}</h3>
+            <h3>{quiz[currentQuestionIndex].question}</h3>
+            <div className="quiz-options">
               {quiz[currentQuestionIndex].options.map((option, i) => (
-                <div key={i} className="form-check mb-3">
+                <div key={i} className="quiz-option">
                   <input
                     type="radio"
                     name={`question-${currentQuestionIndex}`}
-                    value={option[0]}
-                    checked={userAnswers[currentQuestionIndex] === option[0]}
-                    onChange={() => handleAnswerSelect(currentQuestionIndex, option[0])}
-                    className="form-check-input"
-                    id={`option-${currentQuestionIndex}-${i}`} 
+                    value={option}
+                    checked={userAnswers[currentQuestionIndex] === option}
+                    onChange={() => handleAnswerSelect(currentQuestionIndex, option)}
+                    id={`option-${i}`}
                   />
-                  <label htmlFor={`option-${currentQuestionIndex}-${i}`} className="form-check-label">{option}</label> {/* Connect label with input */}
-
+                  <label htmlFor={`option-${i}`} className="option-text">
+                    {option}
+                  </label>
                 </div>
               ))}
             </div>
-            <div className="quiz-navigation d-flex justify-content-between mt-4">
-              <button
-                onClick={handlePreviousQuestion}
-                disabled={currentQuestionIndex === 0}
-                className="btn btn-secondary"
-              >
+            <div className="quiz-navigation">
+              <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0} className="btn btn-secondary">
                 Previous
               </button>
-              <button
-                onClick={handleNextQuestion}
-                disabled={currentQuestionIndex === quiz.length - 1}
-                className="btn btn-secondary"
-              >
+              <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quiz.length - 1} className="btn btn-secondary">
                 Next
               </button>
+              {currentQuestionIndex === quiz.length - 1 && (
+                <button onClick={handleSubmitQuiz} className="btn btn-success">
+                  Submit Quiz
+                </button>
+              )}
             </div>
-            {currentQuestionIndex === quiz.length - 1 && (
-              <button
-                onClick={handleSubmitQuiz}
-                className="btn btn-success w-100 mt-4"
-              >
-                Submit Quiz
-              </button>
-            )}
           </div>
+        ) : (
+          <button onClick={() => setQuizStarted(true)} className="btn btn-success w-100 start-btn">
+            Start Quiz
+          </button>
         )}
       </div>
     </div>

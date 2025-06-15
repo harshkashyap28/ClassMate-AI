@@ -60,7 +60,7 @@ const Summarizer = () => {
       <div className="container summarizer-container">
         <h2 className="title">📖 PDF Summarizer</h2>
 
-        {/* Upload Section - Hidden after file is uploaded */}
+        {/* Upload Section */}
         {showUpload && (
           <form onSubmit={handleSubmit} className="upload-form">
             <label htmlFor="fileInput" className="file-label">Upload PDF</label>

@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
 import os
 import fitz  # PyMuPDF
 import google.generativeai as genai
 import logging
 
+load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
@@ -14,7 +16,7 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 # Set up Google Gemini API
-GOOGLE_API_KEY = "AIzaSyDhWB4h-bpT1TtNupJqk00d9knRGm3G1-c" 
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # Function to extract text from PDF
@@ -57,7 +59,7 @@ def generate_quiz(content, num_questions, difficulty):
     """
 
     try:
-        model = genai.GenerativeModel("gemini-pro")
+        model = genai.GenerativeModel("models/gemini-1.5-flash-002")
         response = model.generate_content(prompt)
         
         # Clean the response to remove unwanted text
@@ -108,4 +110,4 @@ def generate_pdf_quiz():
 if __name__ == "__main__":
     # Enable Flask server logs (startup and API calls)
     logging.getLogger("werkzeug").setLevel(logging.INFO)  # Show INFO-level logs
-    app.run(debug=True, use_reloader=False)
+    app.run(port=5002, debug=True, use_reloader=False)

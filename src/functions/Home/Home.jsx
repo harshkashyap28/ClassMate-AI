@@ -1,41 +1,69 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HomeHeader from "./HomeHeader";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";  // Firebase Auth for getting current user
+import { getFirestore, doc, getDoc } from "firebase/firestore";  // Firestore for fetching user data
 import "./Home.css";
 
 const Home = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const [userName, setUserName] = useState("User");
+  const auth = getAuth();
+  const db = getFirestore();
+
+  // Fetch the user data from Firestore when the component mounts
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          // Get user data from Firestore using the user ID (UID)
+          const userRef = doc(db, "users", user.uid);  // Assuming "users" is the collection
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            // Assuming the first name is stored as "name" in the user profile
+            if (userData.name) {
+              setUserName(userData.name.split(" ")[0]);  // Get the first name
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [auth, db]);
 
   const handleAttendance = () => {
-    // Placeholder for attendance feature
-    alert("Attendance functionality coming soon!");
+    navigate("/attendance");
   };
 
   const handleAssignments = () => {
-    // Placeholder for assignments feature
-    alert("Assignments feature coming soon!");
+    navigate("/assignments");
   };
 
   const handleQuiz = () => {
-    navigate("/quiz"); // Redirect to the quiz page
+    navigate("/quiz");
   };
-  
+
   const handleNotesSummarizer = () => {
-    // Navigate to the Notes Summarizer page
     navigate("/summarizer");
   };
 
-  // Add particle animation dynamically
+  // Particle animation
   useEffect(() => {
     const particlesContainer = document.querySelector(".particles");
-    for (let i = 0; i < 100; i++) {
-      const particle = document.createElement("div");
-      particle.classList.add("particle");
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${Math.random() * 5 + 3}s`;
-      particlesContainer.appendChild(particle);
+    if (particlesContainer) {
+      for (let i = 0; i < 100; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 5 + 3}s`;
+        particlesContainer.appendChild(particle);
+      }
     }
   }, []);
 
@@ -50,7 +78,7 @@ const Home = () => {
       {/* Main Content */}
       <main className="home-content">
         <h2 className="welcome-message animate__animated animate__fadeInDown">
-          Welcome back, {user ? user.name : "User"}! 👋
+          Welcome back, {userName}! 👋
         </h2>
         <p className="welcome-subtext animate__animated animate__fadeInUp">
           Your dashboard is ready. Manage your assignments, notes, attendance, and more.
