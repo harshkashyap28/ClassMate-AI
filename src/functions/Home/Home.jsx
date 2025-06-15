@@ -9,7 +9,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("User");
   const auth = getAuth();
-  const db = getFirestore();
+  const db = getFirestore(); 
 
   // Fetch the user data from Firestore when the component mounts
   useEffect(() => {

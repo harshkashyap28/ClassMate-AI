@@ -8,7 +8,7 @@ const HomeHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/");
-  };
+  }; 
 
   return (
     <header className="home-header">

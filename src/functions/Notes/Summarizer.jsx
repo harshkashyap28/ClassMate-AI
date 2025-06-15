@@ -14,7 +14,7 @@ const Summarizer = () => {
     const uploadedFile = event.target.files[0];
     setFile(uploadedFile);
     setPdfURL(URL.createObjectURL(uploadedFile));
-  };
+  }; 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
