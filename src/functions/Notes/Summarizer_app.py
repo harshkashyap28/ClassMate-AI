@@ -8,7 +8,7 @@ import re
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
-load_dotenv()
+load_dotenv() 
 
 app = Flask(__name__)
 CORS(app)
