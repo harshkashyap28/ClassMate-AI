@@ -6,6 +6,12 @@
 
 ---
 
+## 🌍 Live Demo
+
+🔗 **Try it out here**: [https://classmate-ai-63d5b.web.app](https://classmate-ai-63d5b.web.app)
+
+---
+
 ## 🔑 Core Features
 
 - ### 📸 GeoAttendance with Face Verification
