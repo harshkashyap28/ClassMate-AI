@@ -47,9 +47,12 @@ storage.rules
 extra/classmate-ai-63d5b-firebase-adminsdk-dizo8-ee94ad30f2.json
 extra/classmate-ai-*.json
 
-# Firebase backend functions
-functions/
-functions-v2/
+# Ignore only root-level backend Firebase functions
+/functions
+/functions-v2
+
+# DO NOT ignore frontend feature functions
+!src/functions/
 
 # ----------------------------------------
 # 🧪 EXPERIMENTAL / TEMP FILES
@@ -60,13 +63,9 @@ extra/new.py
 extra/new.txt
 extra/instance/
 
-
 # ----------------------------------------
 # 🧠 Face recognition helper (optional to ignore if experimental)
 src/utils/faceComparison.js
-# ----------------------------------------
-
-
 
 # ----------------------------------------
 # 🧠 MODEL FILES (LARGE & NON-ESSENTIAL)
@@ -76,4 +75,3 @@ extra/shape_predictor_68_face_landmarks.dat
 # ----------------------------------------
 # ⚙️ OTHER TEST CONFIGS
 # ----------------------------------------
-
