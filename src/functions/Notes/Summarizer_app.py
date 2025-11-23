@@ -28,7 +28,7 @@ def extract_text_from_pdf(pdf_path):
     return text, len(doc)  # Return extracted text and number of pages
 
 def chunk_text(text):
-    """Spliting text into smaller chunks for efficient processing."""
+    """Spliting text into smaller chunks for efficient processing.""" 
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=3000, chunk_overlap=500, length_function=len
     )
@@ -40,7 +40,9 @@ def clean_summary(text):
     return cleaned_text.strip()
 
 def generate_summary(text_chunks):
-    model = genai.GenerativeModel("models/gemini-1.5-flash-002")
+    model = genai.GenerativeModel("models/gemini-2.5-flash")
+
+
 
     summaries = []
     for chunk in text_chunks:
